@@ -31,7 +31,14 @@ func Ex020(n int) []int {
 // Ex020Stream should send the same numbers as Ex020 over a channel, then close it.
 func Ex020Stream(n int) <-chan int {
 	ch := make(chan int)
-	// TODO: send divisible-by-7 numbers from a goroutine and close(ch).
-	defer close(ch)
+	go func() {
+		defer close(ch)
+		for i := 0; i < n; i++ {
+			if i%7 == 0 {
+				ch <- i
+			}
+		}
+	}()
+
 	return ch
 }
